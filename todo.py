@@ -1,28 +1,81 @@
-todo = []
+class Task: #setting up tasks
+    def __init__(self, taskTitle, taskDescription, priority):
+        self.taskTitle = taskTitle
+        self.taskDescription = taskDescription
+        self.priority = priority
+        self.complete = False
 
-while True:
+    #for reference
+    def taskTitle(self):
+        return self.taskTitle
+    def taskDescription(self):
+        return self.taskDescription
+    def priority(self):
+        return self.priority
+    def complete(self):
+        return self.complete
 
-    user = input("Press '1' to create a new task, '2' to delete an existing task, '3' to see all tasks, '0' to quit.")
-    if user == '1':
-        task = input("New task: ")
-        todo.append(task)
-    if user == '2':
-        print(todo)
-        delete = int(input("Choose an existing task to delete (1,2,3,... ->): "))
+    def mark_complete(self):
+        self.complete = True
+
+    @property
+    def __str__(self):
+        return self.taskTitle + ": " + self.taskDescription + " (" + self.priority + ")"
+
+class TaskManager: # how the tasks will be arranged and managed (prioritization, adding, viewing, deleting etc...)
+    def __init__(self):
+        self.todoList = [] # the list that stores our tasks
+
+    def add_task(self, Title, Description, priority):
+        new_task = Task(Title, Description, priority)
+        self.todoList.append(new_task)
+
+    def view_tasks(self):
+        if not self.todoList:
+            print("No tasks yet")
+        else:
+            for number, tasks in enumerate(self.todoList):
+                print(f"{number + 1}. {tasks.taskTitle}, P{tasks.priority}")
+                print(tasks.taskDescription)
+                print()
+
+    def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
+        self.todoList[number-1].mark_complete()
+        print(f"Task #{number}: {self.todoList[number-1].taskTitle()} is complete!")
+
+    def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
-        for index in range(len(todo)): #1 -> length of list
-            print(index)
-            if delete == index:
+        for index in range(len(self.todoList)):  # iterate through the indicies of the list
+            if delete - 1 == index:
                 boolean = True
                 break
         if boolean:
-            todo.pop(delete-1)
+            del self.todoList[number-1]
             print("Task Deleted!")
         else:
             print("You did not choose an existing task.")
-    if user == '3':
-        print(todo)
-    if user == '0':
-        break
 
+
+
+
+if __name__ == "__main__":
+
+        TodoListManger = TaskManager()
+        while True: # replacing this code with an OOP approach to apply OOP skills. Now this will be my interactive UI thing.
+
+            user = input("Press '1' to create a new task, '2' to delete an existing task, '3' to see all tasks, '4' to create a project, '5' to create a section to a project, '0' to quit.")
+            if user == '1':
+                taskTitle = input("Enter Task: ")
+                taskDescription = input("Enter Description (Enter to skip): ")
+                taskPriority = input("Enter Task Priority (Enter to skip): ")
+                TodoListManger.add_task(taskTitle, taskDescription, taskPriority)
+
+            if user == '2':
+                TodoListManger.view_tasks()
+                delete = int(input("Choose an existing task to delete (1,2,3,... ->): "))
+                TodoListManger.delete_task(delete)
+            if user == '3':
+                TodoListManger.view_tasks()
+            if user == '0':
+                break
 

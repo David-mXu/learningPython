@@ -1,0 +1,14 @@
+Goal: Todo-list application
+
+Tasks:
+
+{OOP TRANSFORMATION}
+prioritization
+    - add in stricter prioritization stuff???
+due dates
+
+sections
+projects
+
++ ability to modify and rearrange
+
