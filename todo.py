@@ -29,6 +29,7 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
     def add_task(self, Title, Description, priority):
         new_task = Task(Title, Description, priority)
         self.todoList.append(new_task)
+        self.todoList.sort(key=lambda x: x.priority)
 
     def view_tasks(self):
         if not self.todoList:

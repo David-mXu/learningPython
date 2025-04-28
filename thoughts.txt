@@ -4,7 +4,7 @@ Tasks:
 
 {OOP TRANSFORMATION}
 prioritization
-    - add in stricter prioritization stuff???
+    - make prioritization order the tasks
 due dates
 
 sections
