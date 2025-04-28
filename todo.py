@@ -46,7 +46,7 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
     def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
         for index in range(len(self.todoList)):  # iterate through the indicies of the list
-            if delete - 1 == index:
+            if number - 1 == index:
                 boolean = True
                 break
         if boolean:
@@ -55,27 +55,40 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
         else:
             print("You did not choose an existing task.")
 
+class HelpUserTo: #created this to simplify and clean up main code, also helping me with understanding of OOP
+    def __init__(self):
+        self.taskManager = TaskManager()
+
+    def create_task(self):
+        taskTitle = input("Enter Task: ")
+        taskDescription = input("Enter Description (Enter to skip): ")
+        taskPriority = int(input("Enter Task Priority (Enter to skip): "))
+        if not (4 >= taskPriority >= 1):
+            raise ValueError("Priority must be between 1 and 4")
+        self.taskManager.add_task(taskTitle, taskDescription, taskPriority)
+
+    def delete_task(self):
+        self.taskManager.view_tasks()
+        delete = int(input("Choose an existing task to delete (1,2,3,... ->): "))
+        self.taskManager.delete_task(delete)
+
+    def see_tasks(self):
+        self.taskManager.view_tasks()
 
 
 
 if __name__ == "__main__":
 
-        TodoListManger = TaskManager()
+        helpUserTo = HelpUserTo()
         while True: # replacing this code with an OOP approach to apply OOP skills. Now this will be my interactive UI thing.
 
             user = input("Press '1' to create a new task, '2' to delete an existing task, '3' to see all tasks, '4' to create a project, '5' to create a section to a project, '0' to quit.")
             if user == '1':
-                taskTitle = input("Enter Task: ")
-                taskDescription = input("Enter Description (Enter to skip): ")
-                taskPriority = input("Enter Task Priority (Enter to skip): ")
-                TodoListManger.add_task(taskTitle, taskDescription, taskPriority)
-
+                helpUserTo.create_task()
             if user == '2':
-                TodoListManger.view_tasks()
-                delete = int(input("Choose an existing task to delete (1,2,3,... ->): "))
-                TodoListManger.delete_task(delete)
+                helpUserTo.delete_task()
             if user == '3':
-                TodoListManger.view_tasks()
+                helpUserTo.see_tasks()
             if user == '0':
                 break
 
