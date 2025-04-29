@@ -1,14 +1,37 @@
 Goal: Todo-list application
 
+Current State:
+
+CLI Todo-List Application.
+
+Can add tasks, prioritizes + sorts tasks based on prioritization
+Can delete tasks
+Can view tasks
+
 Tasks:
 
-{OOP TRANSFORMATION}
-prioritization
-    - make prioritization order the tasks
 due dates
+-figure out and implement date organization
 
 sections
 projects
++ ability to modify and rearrange (sections, projects, tasks of same priority, due dates)
++ ability to search for tasks
+saving/loading file
 
+smart app
+- understands normal human due date langauge stuff (today = todays date, tmr = tmrs date, next week ... etc...)
+sync to gcal?
+
+extras:
+- task reminders
+- task deadlines
+- task labeling
+- task location
 + ability to modify and rearrange
+
+GUI Menu
+- create UI
+- change theme
+
 

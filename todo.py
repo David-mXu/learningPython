@@ -1,7 +1,12 @@
+#libraries I prob got to use
+from datetime import datetime
+from datetime import timedelta
+
 class Task: #setting up tasks
-    def __init__(self, taskTitle, taskDescription, priority):
+    def __init__(self, taskTitle, taskDescription, dueDate, priority):
         self.taskTitle = taskTitle
         self.taskDescription = taskDescription
+        self.dueDate = dueDate.today()
         self.priority = priority
         self.complete = False
 
@@ -12,6 +17,8 @@ class Task: #setting up tasks
         return self.taskDescription
     def priority(self):
         return self.priority
+    def dueDate(self):
+        return self.dueDate
     def complete(self):
         return self.complete
 
@@ -20,15 +27,16 @@ class Task: #setting up tasks
 
     @property
     def __str__(self):
-        return self.taskTitle + ": " + self.taskDescription + " (" + self.priority + ")"
+        return self.taskTitle + ': ' + self.taskDescription + " (" + self.priority + ")" + " " + str(self.dueDate)
 
 class TaskManager: # how the tasks will be arranged and managed (prioritization, adding, viewing, deleting etc...)
     def __init__(self):
         self.todoList = [] # the list that stores our tasks
 
-    def add_task(self, Title, Description, priority):
-        new_task = Task(Title, Description, priority)
+    def add_task(self, Title, Description, dueDate, priority):
+        new_task = Task(Title, Description, dueDate, priority)
         self.todoList.append(new_task)
+        # how can i manage sorting by date and sorting by priority at the same time?
         self.todoList.sort(key=lambda x: x.priority)
 
     def view_tasks(self):
@@ -63,6 +71,7 @@ class HelpUserTo: #created this to simplify and clean up main code, also helping
     def create_task(self):
         taskTitle = input("Enter Task: ")
         taskDescription = input("Enter Description (Enter to skip): ")
+        taskDueDate = input("Enter Task Due Date (Enter to skip + default = today): ")
         taskPriority = int(input("Enter Task Priority (Enter to skip): "))
         if not (4 >= taskPriority >= 1):
             raise ValueError("Priority must be between 1 and 4")
