@@ -10,10 +10,8 @@ Can view tasks
 
 Tasks:
 
-due dates
--figure out and implement date organization
-
 sections
+
 projects
 + ability to modify and rearrange (sections, projects, tasks of same priority, due dates)
 + ability to search for tasks

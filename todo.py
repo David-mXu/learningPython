@@ -29,40 +29,96 @@ class Task: #setting up tasks
     def __str__(self):
         return self.taskTitle + ': ' + self.taskDescription + " (" + self.priority + ")" + " " + str(self.dueDate)
 
-class TaskManager: # how the tasks will be arranged and managed (prioritization, adding, viewing, deleting etc...)
-    def __init__(self):
-        self.todoList = [] # the list that stores our tasks
+class Subcategory:
+    def __init__(self, subcategoryTitle):
+        self.subcategoryTitle = subcategoryTitle
+        self.tasks = []
 
     def add_task(self, Title, Description, dueDate, priority):
         new_task = Task(Title, Description, dueDate, priority)
-        self.todoList.append(new_task)
-        # how can i manage sorting by date and sorting by priority at the same time?
-        self.todoList.sort(key=lambda x: x.priority)
+        self.tasks.append(new_task)
+        
+    def sort_tasks(self):
+        # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
+        self.tasks.sort(key=lambda task: (task.dueDate, task.priority))
+        
+        
+class Category:
+    def __init__(self, categoryTitle):
+        self.categoryTitle = categoryTitle
+        self.subcategories = []
+        self.tasks = []
+        
+    def add_subcategory(self, subcategoryTitle):
+        self.subcategories.append(subcategoryTitle)
+    
+    def add_task(self, Title, Description, dueDate, priority):
+        new_task = Task(Title, Description, dueDate, priority)
+        self.tasks.append(new_task)
+        
+    def sort_tasks(self):
+        # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
+        self.tasks.sort(key=lambda task: (task.dueDate, task.priority))
+        
+    def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
+        self.tasks[number-1].mark_complete()
+        print(f"Task #{number}: {self.tasks[number-1].taskTitle()} is complete!")
+
+    def delete_task(self, number): # make sure that we have the chance to acc remove tasks
+        boolean = False
+        for index in range(len(self.tasks)):  # iterate through the indicies of the list
+            if number - 1 == index:
+                boolean = True
+                break
+        if boolean:
+            del self.tasks[number-1]
+            print("Task Deleted!")
+        else:
+            print("You did not choose an existing task.")
+
+    def delete_subcategory(self, number):
+        pass
+
+class TaskManager: # how the tasks will be arranged and managed (prioritization, adding, viewing, deleting etc...)
+    def __init__(self):
+        self.categories = []
+        self.tasks = [] # the list that stores our tasks
+
+    def add_task(self, Title, Description, dueDate, priority):
+        new_task = Task(Title, Description, dueDate, priority)
+        self.tasks.append(new_task)
+
+    def sort_tasks(self):
+        # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
+        self.tasks.sort(key=lambda task: (task.dueDate, task.priority))
 
     def view_tasks(self):
-        if not self.todoList:
+        if not self.tasks:
             print("No tasks yet")
         else:
-            for number, tasks in enumerate(self.todoList):
+            for number, tasks in enumerate(self.tasks):
                 print(f"{number + 1}. {tasks.taskTitle}, P{tasks.priority}")
                 print(tasks.taskDescription)
                 print()
 
     def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
-        self.todoList[number-1].mark_complete()
-        print(f"Task #{number}: {self.todoList[number-1].taskTitle()} is complete!")
+        self.tasks[number-1].mark_complete()
+        print(f"Task #{number}: {self.tasks[number-1].taskTitle()} is complete!")
 
     def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
-        for index in range(len(self.todoList)):  # iterate through the indicies of the list
+        for index in range(len(self.tasks)):  # iterate through the indicies of the list
             if number - 1 == index:
                 boolean = True
                 break
         if boolean:
-            del self.todoList[number-1]
+            del self.tasks[number-1]
             print("Task Deleted!")
         else:
             print("You did not choose an existing task.")
+
+    def delete_category(self):
+        pass
 
 class HelpUserTo: #created this to simplify and clean up main code, also helping me with understanding of OOP
     def __init__(self):
