@@ -11,10 +11,9 @@ Can organize tasks using sections and projects
 
 Tasks:
 
-sections
+learn and implement unit test class in python + coverage
 
-projects
-+ ability to modify and rearrange (sections, projects, tasks of same priority, due dates)
+rearrange (sections, projects, tasks of same priority, due dates)
 + ability to search for tasks
 saving/loading file
 
