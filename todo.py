@@ -126,7 +126,8 @@ class Category:
 
     #management for subcategories
     def add_subcategory(self, subcategoryTitle):
-        self.subcategories.append(subcategoryTitle)
+        new_subcategory = Subcategory(subcategoryTitle)
+        self.subcategories.append(new_subcategory)
 
     def view_subcategory(self):
         if not self.subcategories:
@@ -169,6 +170,10 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
                 print(f"{number + 1}. {tasks.taskTitle}, P{tasks.priority}")
                 print(tasks.taskDescription)
                 print()
+
+    def add_category(self, categoryTitle):
+        new_category = Category(categoryTitle)
+        self.categories.append(new_category)
 
     def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
         self.tasks[number-1].mark_complete()
