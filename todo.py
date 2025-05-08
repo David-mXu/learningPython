@@ -6,7 +6,7 @@ class Task: #setting up tasks
     def __init__(self, taskTitle, taskDescription, dueDate, priority):
         self.taskTitle = taskTitle
         self.taskDescription = taskDescription
-        self.dueDate = dueDate.today()
+        self.dueDate = dueDate
         self.priority = priority
         self.complete = False
 
@@ -39,7 +39,7 @@ class Task: #setting up tasks
 
     @property
     def __str__(self):
-        return self.taskTitle + ': ' + self.taskDescription + " (" + self.priority + ")" + " " + str(self.dueDate)
+        return f"{self.taskTitle}: {self.taskDescription} (P{self.priority}) Due:{self.dueDate} {self.complete}"
 
 class Subcategory:
     def __init__(self, subcategoryTitle):
@@ -60,14 +60,18 @@ class Subcategory:
     def add_task(self, Title, Description, dueDate, priority):
         new_task = Task(Title, Description, dueDate, priority)
         self.tasks.append(new_task)
+        return new_task
         
     def sort_tasks(self):
         # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
         self.tasks.sort(key=lambda task: (task.dueDate, task.priority))
 
     def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
-        self.tasks[number-1].mark_complete()
-        print(f"Task #{number}: {self.tasks[number-1].taskTitle()} is complete!")
+        if 0 <= number < len(self.tasks):
+            self.tasks[number-1].mark_complete()
+            # print(f"Task #{number}: {self.tasks[number-1].taskTitle()} is complete!") UI
+            return True
+        return False
 
     def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
@@ -77,9 +81,10 @@ class Subcategory:
                 break
         if boolean:
             del self.tasks[number-1]
-            print("Task Deleted!")
-        else:
-            print("You did not choose an existing task.")
+            #print("Task Deleted!") add to UI
+            return True
+        return False
+            # print("You did not choose an existing task.") UI
 
 class Category:
     def __init__(self, categoryTitle):
@@ -103,14 +108,18 @@ class Category:
     def add_task(self, Title, Description, dueDate, priority):
         new_task = Task(Title, Description, dueDate, priority)
         self.tasks.append(new_task)
+        return new_task
         
     def sort_tasks(self):
-        # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
+        #sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
         self.tasks.sort(key=lambda task: (task.get_dueDate, task.get_priority))
         
     def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
-        self.tasks[number-1].mark_complete()
-        print(f"Task #{number}: {self.tasks[number-1].get_taskTitle()} is complete!")
+        if 0 <= number < len(self.tasks):
+            self.tasks[number-1].mark_complete()
+            return True
+        #print(f"Task #{number}: {self.tasks[number-1].get_taskTitle()} is complete!") add UI
+        return False
 
     def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
@@ -120,22 +129,32 @@ class Category:
                 break
         if boolean:
             del self.tasks[number-1]
-            print("Task Deleted!")
-        else:
-            print("You did not choose an existing task.")
+            return True
+            #print("Task Deleted!") UI
+        return False
+            #print("You did not choose an existing task.") UI
 
     #management for subcategories
     def add_subcategory(self, subcategoryTitle):
+
+        #add in check for duplicate subcategory
+
         new_subcategory = Subcategory(subcategoryTitle)
         self.subcategories.append(new_subcategory)
+        return new_subcategory
 
-    def view_subcategory(self):
+    #add a find subcategoyr method
+    def find_subcategory(self, subcategoryTitle):
+        pass
+
+    def view_subcategory_titles(self):
         if not self.subcategories:
             print("No subcategories yet")
         else:
             for number, subcategories in enumerate(self.subcategories):
                 print(f"{number + 1}. {subcategories.get_subcategoryTitle}")
                 print()
+
     def delete_subcategory(self, number):
         boolean = False
         for index in range(len(self.subcategories)):  # iterate through the indicies of the list
@@ -144,25 +163,36 @@ class Category:
                 break
         if boolean:
             del self.subcategories[number - 1]
-            print("Task Deleted!")
-        else:
-            print("You did not choose an existing task.")
+            return True
+            #print("Task Deleted!") UI
+        return False
+            #print("You did not choose an existing task.") UI
+
+    def __str__(self):
+        return self.categoryTitle
 
 class TaskManager: # how the tasks will be arranged and managed (prioritization, adding, viewing, deleting etc...)
     def __init__(self):
         self.categories = []
         self.tasks = [] # the list that stores our tasks
 
+    #getters
+    def get_categories(self):
+        return self.categories
+    def get_tasks(self):
+        return self.tasks
+
     #management for tasks outside of both categories
     def add_task(self, Title, Description, dueDate, priority):
         new_task = Task(Title, Description, dueDate, priority)
         self.tasks.append(new_task)
+        return new_task
 
     def sort_tasks(self):
         # sorting using lambda allows me to sort by specific keys, and a tuple in this case acts as a key that can hold multiple items
         self.tasks.sort(key=lambda task: (task.dueDate, task.priority))
 
-    def view_tasks(self):
+    def view_tasks_inTaskManager(self):
         if not self.tasks:
             print("No tasks yet")
         else:
@@ -171,13 +201,12 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
                 print(tasks.taskDescription)
                 print()
 
-    def add_category(self, categoryTitle):
-        new_category = Category(categoryTitle)
-        self.categories.append(new_category)
-
     def complete_task(self, number): #make sure that we distinguish completed and uncompleted tasks, but not delete completed tasks (so can view completed)
-        self.tasks[number-1].mark_complete()
-        print(f"Task #{number}: {self.tasks[number-1].get_taskTitle()} is complete!")
+        if 0 <= number < len(self.tasks):
+            self.tasks[number-1].mark_complete()
+            return True
+        return False
+        #print(f"Task #{number}: {self.tasks[number-1].get_taskTitle()} is complete!") UI
 
     def delete_task(self, number): # make sure that we have the chance to acc remove tasks
         boolean = False
@@ -187,12 +216,25 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
                 break
         if boolean:
             del self.tasks[number-1]
-            print("Task Deleted!")
-        else:
-            print("You did not choose an existing task.")
+            return True
+            #print("Task Deleted!") UI
+        return False
+            #print("You did not choose an existing task.") UI
 
     #management for categories
-    def view_category(self):
+
+    def add_category(self, categoryTitle):
+        #add in check for duplicate categories
+
+
+        new_category = Category(categoryTitle)
+        self.categories.append(new_category)
+        return new_category
+
+    def find_category(self, categoryTitle):
+        pass
+
+    def view_category_titles(self):
         if not self.categories:
             print("No categories yet")
         else:
@@ -208,9 +250,19 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
                 break
         if boolean:
             del self.categories[number - 1]
-            print("Task Deleted!")
-        else:
-            print("You did not choose an existing task.")
+            return True
+            #print("Task Deleted!")
+        return False
+            #print("You did not choose an existing task.")
+
+    #need to add methods that allow for addition of tasks and subcategories in category, and tasks in subcategory
+    def add_subcategory_to_category(self, categoryTitle, subCategoryTitle):
+        pass
+    def add_task_to_category(self, categoryTitle, taskTitle, taskDescription, dueDate, priority):
+        pass
+    def add_task_to_subcategory(self, subcategoryTitle, taskTitle, taskDescription, dueDate, priority):
+
+
 
 class HelpUserTo: #created this to simplify and clean up main code, also helping me with understanding of OOP
     def __init__(self):

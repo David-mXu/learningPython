@@ -11,7 +11,20 @@ Can organize tasks using sections and projects
 
 Tasks:
 
-learn and implement unit test class in python + coverage
+ran into issue implemetning unit test class due to teh fact that my code was missing some methods so lots of bug fixing
+- fixed duedate initialization
+- making some of the methods return itself which i learned can be useful for validation if the task was created correctly in the first place,
+also helps with method chaining and allows for immediate access to the object when created instead of having to search for it later
+-added some restrictions to parameters inside methods like complete tasks so that it can only accept valid indices
+-commented out print statements to be moved to UI
+- added in skeletons of methods i want to add in the future (find category,subcateogry, add subcat & tasks to cat, and tasks to sub cat)
+
+learn and implement unit test class in python + coverage | while fixing up code
+
+
+
+
+-------------------------------------------------------------------
 
 rearrange (sections, projects, tasks of same priority, due dates)
 + ability to search for tasks

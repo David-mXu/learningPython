@@ -1,3 +1,5 @@
+import pytest
+
 from todo import Task, TaskManager, Subcategory, Category
 import datetime
 
@@ -16,7 +18,17 @@ def complete_task():
 @pytest.fixture
 def sample_todolist():
     taskManager = TaskManager()
+    #testing for tasks based in the task manager group
     taskManager.add_task("Apply Co-op jobs", "On Waterlooworks & Linkedin", datetime.date.today() + datetime.timedelta(days=1), 1)
     taskManager.add_task("Do HW", "for ECE124, check outline for hw", datetime.datetime.now(), 1)
+    #creating cases for category group
+    taskManager.add_category("Personal Projects")
+    taskManager.add_category("School")
+    taskManager.add_category("Project Management")
+
+    #creating cases for subcategory group
+
+
+
 
 
