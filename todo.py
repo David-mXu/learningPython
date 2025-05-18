@@ -4,6 +4,7 @@ from datetime import timedelta
 
 class Task: #setting up tasks
     def __init__(self, taskTitle, taskDescription, dueDate, priority):
+
         self.taskTitle = taskTitle
         self.taskDescription = taskDescription
         self.dueDate = dueDate
@@ -138,18 +139,23 @@ class Category:
     def add_subcategory(self, subcategoryTitle):
 
         #add in check for duplicate subcategory
-
-        new_subcategory = Subcategory(subcategoryTitle)
-        self.subcategories.append(new_subcategory)
-        return new_subcategory
+        if subcategoryTitle not in self.subcategories:
+            new_subcategory = Subcategory(subcategoryTitle)
+            self.subcategories.append(new_subcategory)
+            return new_subcategory
+        #add message if dupe subcat
 
     #add a find subcategoyr method
     def find_subcategory(self, subcategoryTitle):
-        pass
+
+        for subcat in self.subcategories:
+            if subcat.get_subcategoryTitle() == subcategoryTitle:
+                return subcat
+        return None
 
     def view_subcategory_titles(self):
         if not self.subcategories:
-            print("No subcategories yet")
+            print("No subcategories yet") #ui...
         else:
             for number, subcategories in enumerate(self.subcategories):
                 print(f"{number + 1}. {subcategories.get_subcategoryTitle}")
@@ -257,10 +263,47 @@ class TaskManager: # how the tasks will be arranged and managed (prioritization,
 
     #need to add methods that allow for addition of tasks and subcategories in category, and tasks in subcategory
     def add_subcategory_to_category(self, categoryTitle, subCategoryTitle):
-        pass
+
+        if categoryTitle in self.categories:
+            categoryTitle.add_subcategory(subCategoryTitle)
+        else:
+            print(f"{categoryTitle} is not a category")
+
+
     def add_task_to_category(self, categoryTitle, taskTitle, taskDescription, dueDate, priority):
+
+        if categoryTitle in self.categories:
+            categoryTitle.add_task(taskTitle, taskDescription, dueDate, priority)
+        else:
+            print(f"{categoryTitle} is not a category")
+            addCat = input(f"Would you like to add {categoryTitle} as a category? (y/n)")
+
+            if addCat == "y":
+                self.add_category(categoryTitle)
+
+    def add_task_to_subcategory(self, categoryTitle, subcategoryTitle, taskTitle, taskDescription, dueDate, priority):
+
+        if categoryTitle in self.categories:
+            if subcategoryTitle in categoryTitle.subcategories:
+                subcategoryTitle.add_task(taskTitle, taskDescription, dueDate, priority)
+            else:
+                print(f"{subcategoryTitle} is not a subcategory")
+                addSubcat = input(f"Would you like to add {subcategoryTitle} as a subcategory to {categoryTitle}? (y/n)")
+
+                if addSubcat == "y":
+                    self.add_subcategory_to_category(categoryTitle, subcategoryTitle)
+
+        else:
+            print(f"{categoryTitle} is not a category")
+            addCat = input(f"Would you like to add {categoryTitle} as a category? (y/n)")
+
+            if addCat == "y":
+                self.add_category(categoryTitle)
+
+    def delete_task_from_category(self, categoryTitle, taskTitle):
         pass
-    def add_task_to_subcategory(self, subcategoryTitle, taskTitle, taskDescription, dueDate, priority):
+    def delete_task_from_subcategory(self, categoryTitle, subcategoryTitle, taskTitle):
+        pass
 
 
 

@@ -9,17 +9,22 @@ Can delete tasks
 Can view tasks
 Can organize tasks using sections and projects
 
+PREVIOUS CHANGES: (help me to understand where I left off last time)
+
+-fixed issues with not being able to add tasks, categories, subcategories in taskmanager, category and subcategory
+
+
 Tasks:
 
-ran into issue implemetning unit test class due to teh fact that my code was missing some methods so lots of bug fixing
-- fixed duedate initialization
-- making some of the methods return itself which i learned can be useful for validation if the task was created correctly in the first place,
-also helps with method chaining and allows for immediate access to the object when created instead of having to search for it later
--added some restrictions to parameters inside methods like complete tasks so that it can only accept valid indices
--commented out print statements to be moved to UI
-- added in skeletons of methods i want to add in the future (find category,subcateogry, add subcat & tasks to cat, and tasks to sub cat)
 
-learn and implement unit test class in python + coverage | while fixing up code
+- complete creating unit tests for code and testing for functionality
+
+- currently feeling like I could make the code cleaner. potential changes
+    - REMINDER: finding objects through using titles (strings) over indices
+    - REMINDER: methods that create objects -> return them (for testing)
+    - removing print statements from core logic somehow... -> put them in  (got to create a ui...)
+
+
 
 
 
@@ -39,7 +44,7 @@ extras:
 - task deadlines
 - task labeling
 - task location
-+ ability to modify and rearrange
+    + ability to modify and rearrange
 
 GUI Menu
 - create UI
